@@ -18,11 +18,10 @@ uniform float persistence;
 #include helpers/math.glsl
 
 uniform sampler2D in;
-uniform float u_time;
 
-void main()
+void mainImage(out vec4 fragColor, in vec2 fragCoord)
 {
-    vec2 uv = v_uv;
+    vec2 uv = fragCoord.xy / iResolution.xy;
     
     // Use included FBM function for organic noise pattern
     vec2 p = uv * 5.0;
@@ -38,7 +37,7 @@ void main()
     }
     
     // Create flowing pattern
-    float t = u_time * 0.3;
+    float t = iTime * 0.3;
     vec2 q = uv + vec2(n + t, noise(uv * 2.0 + t));
     
     // Second pass of noise
@@ -53,8 +52,8 @@ void main()
     
     // Color based on noise values
     vec3 col = vec3(
-        0.5 + 0.5 * sin(n * 3.14 + u_time),
-        0.5 + 0.5 * cos(n2 * 3.14 + u_time * 0.7),
+        0.5 + 0.5 * sin(n * 3.14 + iTime),
+        0.5 + 0.5 * cos(n2 * 3.14 + iTime * 0.7),
         0.2 + 0.3 * n2
     );
     

@@ -16,9 +16,9 @@ uniform vec2 offset;
 uniform sampler2D in;
 uniform sampler2D feedback;
 
-void main() {
+void mainImage(out vec4 fragColor, in vec2 fragCoord) {
     // uv coordinates from input
-    vec2 uv = v_uv;
+    vec2 uv = fragCoord.xy / iResolution.xy;
     
     // Sample the input
     vec4 inputColor = texture(in, uv);

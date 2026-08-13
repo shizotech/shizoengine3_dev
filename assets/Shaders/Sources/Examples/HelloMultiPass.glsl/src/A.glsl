@@ -13,11 +13,10 @@ uniform float radius;
 // ============================================================
 
 uniform sampler2D in;
-uniform float u_time;
 
-void main()
+void mainImage(out vec4 fragColor, in vec2 fragCoord)
 {
-    vec2 uv = v_uv;
+    vec2 uv = fragCoord.xy / iResolution.xy;
     vec2 centered = uv - 0.5;
     
     // Rotate coordinates
@@ -30,14 +29,14 @@ void main()
     
     // Create spiral pattern
     float dist = length(rotated);
-    float spiral = sin(dist * 20.0 - u_time + rotated.x * 5.0);
+    float spiral = sin(dist * 20.0 - iTime + rotated.x * 5.0);
     spiral = smoothstep(0.0, 1.0, spiral) * radius;
     
     // Color the spiral
     vec3 col = vec3(
-        0.5 + 0.5 * sin(spiral + u_time),
-        0.5 + 0.5 * cos(spiral * 1.3 + u_time * 0.7),
-        0.5 + 0.5 * sin(spiral * 0.7 + u_time * 1.3)
+        0.5 + 0.5 * sin(spiral + iTime),
+        0.5 + 0.5 * cos(spiral * 1.3 + iTime * 0.7),
+        0.5 + 0.5 * sin(spiral * 0.7 + iTime * 1.3)
     );
     
     // Blend with input

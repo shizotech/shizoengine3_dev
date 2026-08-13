@@ -1,5 +1,5 @@
 // BasicTime - A time-based animation demo
-// Demonstrates the u_time uniform for creating animations
+// Demonstrates the iTime uniform for creating animations
 //
 // This shader creates a pulsing circle effect that changes color and size
 // based on the time uniform. The animation loops smoothly.
@@ -18,14 +18,14 @@ uniform vec3 colorB;
 
 uniform sampler2D in;
 
-void main() {
+void mainImage(out vec4 fragColor, in vec2 fragCoord) {
     // uv coordinates centered at (0.5, 0.5)
-    vec2 uv = v_uv;
+    vec2 uv = fragCoord.xy / iResolution.xy;
     vec2 centered = (uv - 0.5) * 2.0; // (-1,-1) to (1,1)
     
     // Create animated pulsing rings
     float dist = length(centered);
-    float t = u_time * speed + offset;
+    float t = iTime * speed + offset;
     
     // Animated ring pattern
     float ring = 0.0;

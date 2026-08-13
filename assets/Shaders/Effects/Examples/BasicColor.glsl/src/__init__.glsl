@@ -14,12 +14,12 @@ uniform vec3 color2;
 
 uniform sampler2D in;
 
-void main() {
+void mainImage(out vec4 fragColor, in vec2 fragCoord) {
     // uv coordinates: (0,0) at bottom-left, (1,1) at top-right
-    vec2 uv = v_uv;
+    vec2 uv = fragCoord.xy / iResolution.xy;
     
     // Calculate gradient based on uv.y with time animation
-    float t = uv.y + sin(u_time * speed) * 0.1;
+    float t = uv.y + sin(iTime * speed) * 0.1;
     t = mod(t, 1.0);
     
     // Smooth gradient between color1 and color2

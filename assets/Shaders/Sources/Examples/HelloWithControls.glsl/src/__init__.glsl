@@ -27,11 +27,10 @@ uniform vec2 center;
 // ============================================================
 
 uniform sampler2D in;
-uniform float u_time;
 
-void main()
+void mainImage(out vec4 fragColor, in vec2 fragCoord)
 {
-    vec2 uv = v_uv * resolution_scale;
+    vec2 uv = fragCoord.xy / iResolution.xy * resolution_scale;
     
     // Create segmented pattern based on controls
     float angle = atan(uv.y - center.y, uv.x - center.x);
@@ -42,15 +41,15 @@ void main()
     float segFactor = 1.0 - smoothstep(0.0, 3.14159 / float(segments), abs(segAngle));
     
     // Animated rings
-    float ring = abs(sin(dist * 20.0 - u_time * speed));
+    float ring = abs(sin(dist * 20.0 - iTime * speed));
     ring = pow(ring, 3.0) * segFactor;
     
     // Combine colors
-    vec3 col = mix(base_color, accent_color, segFactor * 0.5 * (sin(u_time + dist * 5.0) * 0.5 + 0.5));
+    vec3 col = mix(base_color, accent_color, segFactor * 0.5 * (sin(iTime + dist * 5.0) * 0.5 + 0.5));
     col *= ring * intensity;
     
     // Add subtle input blend
-    vec4 inputColor = texture(in, v_uv);
+    vec4 inputColor = texture(in, fragCoord.xy / iResolution.xy);
     col = mix(col, inputColor.rgb, 0.2);
     
     fragColor = vec4(col, 1.0);

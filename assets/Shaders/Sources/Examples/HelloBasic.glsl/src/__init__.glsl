@@ -11,9 +11,9 @@
 // The 'in' uniform is auto-bound to the default input texture
 uniform sampler2D in;
 
-void main()
+void mainImage(out vec4 fragColor, in vec2 fragCoord)
 {
-    vec2 uv = v_uv;
+    vec2 uv = fragCoord.xy / iResolution.xy;
     
     // Sample the input texture
     vec4 color = texture(in, uv);

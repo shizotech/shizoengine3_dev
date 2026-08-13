@@ -13,9 +13,9 @@ uniform float blend;
 uniform sampler2D in;      // Default input
 uniform sampler2D A;       // Auto-bound to src/A.glsl
 
-void main()
+void mainImage(out vec4 fragColor, in vec2 fragCoord)
 {
-    vec2 uv = v_uv;
+    vec2 uv = fragCoord.xy / iResolution.xy;
     
     // Sample both passes
     vec4 passA = texture(A, uv);

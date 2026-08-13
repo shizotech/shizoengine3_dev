@@ -18,12 +18,11 @@ uniform int pattern_type;
 // ============================================================
 
 uniform sampler2D in;
-uniform float u_time;
 
-void main()
+void mainImage(out vec4 fragColor, in vec2 fragCoord)
 {
-    vec2 uv = v_uv;
-    float t = u_time * 0.2;
+    vec2 uv = fragCoord.xy / iResolution.xy;
+    float t = iTime * 0.2;
     
     // Tile the UV space
     vec2 tile = uv * tile_size;
@@ -72,7 +71,7 @@ void main()
     vec3 col = mix(color1, color2, timeMod * pattern);
     
     // Add subtle animation
-    col += vec3(0.02) * sin(uv.x * 20.0 + u_time);
+    col += vec3(0.02) * sin(uv.x * 20.0 + iTime);
     
     // Blend with input
     vec4 inputColor = texture(in, uv);
